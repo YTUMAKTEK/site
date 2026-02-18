@@ -61,9 +61,9 @@ const {useState,useEffect,useRef,useCallback,useMemo}=React;
 /* ── Palette ─────────────────────────────────────────────── */
 const C={bg:'#FFFFFF',navy:'#0C2C47',mauve:'#D6C9C5',yellow:'#DA9B2B',green:'#2E5749',orange:'#BF512C',mint:'#ABCBCA'};
 const GROUPS={
-  org:    {label:'Organization',color:C.navy,  text:'#fff'},
+  org:    {label:'Organization',color:C.yellow,  text:C.navy},
   general:{label:'General',     color:C.mauve, text:C.navy},
-  racing: {label:'Racing',      color:C.yellow,text:C.navy},
+  racing: {label:'Racing',      color:C.navy,text:'#fff'},
   astrid: {label:'Astrid',      color:C.green, text:'#fff'},
   sigma:  {label:'Sigma',       color:C.orange,text:'#fff'},
   rocket: {label:'Rocket',      color:C.mint,  text:C.navy},
@@ -99,6 +99,15 @@ function SVGIcon({name,size,color}){
     dangerouslySetInnerHTML:{__html:`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="${color||'#fff'}" width="${size}" height="${size}">${P[name]||P.info}</svg>`}
   });
 }
+// ADD this new function right after SVGIcon:
+function ImgIcon({src, size}){
+  return React.createElement('img',{
+    src: src,
+    width: size,
+    height: size,
+    style:{objectFit:'contain', pointerEvents:'none', flexShrink:0}
+  });
+}
 
 /* ── Node Definitions ────────────────────────────────────── */
 const RAW=[
@@ -119,7 +128,7 @@ const RAW=[
   {id:"gen-comm",        label:"Communication",          group:"general",icon:"mail",    r:50},
   {id:"gen-thanks",      label:"Thank You",              group:"general",icon:"heart",   r:42},
   {id:"racing-members",  label:"Racing Members",         group:"racing", icon:"users",   r:52},
-  {id:"racing-project",  label:"Racing Project",         group:"racing", icon:"car",     r:66},
+  {id:"racing-project", label:"Racing Project", group:"racing", img:"icons/racing.png", r:66},
   {id:"racing-sponsors", label:"Racing Sponsors",        group:"racing", icon:"star",    r:44},
   {id:"racing-contact",  label:"Racing Contact",         group:"racing", icon:"mail",    r:46},
   {id:"racing-org",      label:"Racing Org",             group:"racing", icon:"building",r:50},
@@ -265,7 +274,7 @@ function NodeCircle({node,g,idx,selected,hovered,setHovered,setSelected}){
     return()=>cancelAnimationFrame(raf);
   },[node.x,node.y,node.r,isSel,hasSel,isHov,idx,fl]);
 
-  const iconSz=Math.round(node.r*0.52);
+  const iconSz=Math.round(node.r*0.75);
 
   return React.createElement('div',{
     ref:elRef,
@@ -290,7 +299,9 @@ function NodeCircle({node,g,idx,selected,hovered,setHovered,setSelected}){
       userSelect:'none',
     }
   },
-    React.createElement(SVGIcon,{name:node.icon,size:iconSz,color:g.text})
+  node.img
+  ? React.createElement(ImgIcon,{src:node.img, size:iconSz})
+  : React.createElement(SVGIcon,{name:node.icon, size:iconSz, color:g.text})
   );
 }
 
@@ -730,7 +741,7 @@ function App(){
       transition:'all 0.35s ease',
       pointerEvents:hasSel?'none':'auto',
     }},
-    React.createElement('img',{src:'Maktek_logo.png',alt:'Maktek',style:{height:36,width:'auto',objectFit:'contain',display:'block'}}),
+    React.createElement('img',{src:'Maktek_logo.png',alt:'Maktek',style:{height:80,width:'auto',objectFit:'contain',display:'block'}}),
       React.createElement('span',{style:{fontFamily:"'DM Mono',monospace",fontSize:'0.57rem',letterSpacing:'0.22em',textTransform:'uppercase',color:C.navy,opacity:0.38}},
         `${RAW.length} Topics`
       )
