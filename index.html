@@ -50,7 +50,8 @@ body{font-family:'DM Mono',monospace}
 <div id="root"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src='assets/Maktek_logo.png'></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <script>
 /* ════════════════════════════════════════════════════════════
    MAKTEK— Interactive Canvas
@@ -378,41 +379,221 @@ const MEMBERS_DATA={
     {name:"Doç. Alptekin Ergenç",   url:"mailto:fatma.kurt@university.edu"},
   ],
   "racing-members":[
-    {name:"Cem",      url:"https://linkedin.com/in/berk-dogan"},
-    {name:"Buse",    url:"https://linkedin.com/in/selin-yildiz"},
-  ],
+    {name:"Cem Aygün",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Buse Koyunoğlu",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Ahmet Bağcı",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Alp Ömer Didici",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Osman Güneş",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Rafi Purtaş",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Erdem Çabuker",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Özgür Can Şenol",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Toygar Hilmi Öztürk",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Melike Dündar",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Bedirhan Ayhan",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Mehmet Emir Öztaş",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Kadir Bağcı",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Kerem Bayındır",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Özgür Deniz Özer",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Erim Eyigüngör",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Ahmet Sertkaya",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"İsmail Akbaş",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Burak Salih Yılmaz",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Bedirhan N. Yavaş",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Yiğit Ersan Kantarcı",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Ayşenur Özdemir",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Kaan Özsoy",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Emir Baran Çelik",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Serra Vardar",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Ata Dinçer",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Elif Ece Doğan",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Osman Emir Keçeci",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Nurlan Rahimov",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Bedirhan Can",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Metehan Dalkıran",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Bedirhan Akpınar",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Berke Çırak",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Göktuğ Gada",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Kazım Sancar Efe",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Oğuzhan Avcı",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Buğra Emin  Atan",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Sultan Berre Güngör",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"İkra Azra Pişirici",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Sueda Zeynep Demirtaş",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Çağan Yağız",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Mahir Kemal Çavdat",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Emirhan Özdemir",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"Yiğit Kadeş",    url:"https://linkedin.com/in/selin-yildiz"},
+    {name:"Bora Akaner",      url:"https://linkedin.com/in/berk-dogan"},
+    {name:"İbrahim Efe Odabaşı",    url:"https://linkedin.com/in/selin-yildiz"},
+],
   "astrid-members":[
-    {name:"Can Buğra",   url:"https://linkedin.com/in/kaan-demirbas"},
+    {name:"Devrim",   url:"https://linkedin.com/in/kaan-demirbas"},
+    {name:"Emirhan Günay",   url:"https://linkedin.com/in/kaan-demirbas"},
+    {name:"Can Buğra Tezcan",   url:"https://linkedin.com/in/kaan-demirbas"},
+    {name:"Elifgül Eyigün",   url:"https://linkedin.com/in/kaan-demirbas"},
+    {name:"Mehmet Kaan Çakas",   url:"https://linkedin.com/in/kaan-demirbas"},
+    {name:"Muhammed Fatih Özgür",   url:"https://linkedin.com/in/kaan-demirbas"},
+    {name:"Ebrar Serim",   url:"https://linkedin.com/in/kaan-demirbas"},
+    
   ],
   "sigma-members":[
     {name:"Haydar Enes Karaçobanım",    url:"https://linkedin.com/in/tugba-yilmaz"},
-    {name:"Oğuzhan",       url:"https://linkedin.com/in/alper-sen"},
-    {name:"Esma",     url:"https://linkedin.com/in/merve-kocak"},
+    {name:"Erdem Dalbak",       url:"https://linkedin.com/in/alper-sen"},
+    {name:"Beyza Şenol",     url:"https://linkedin.com/in/merve-kocak"},
+    {name:"Kerem Avcı",     url:"https://linkedin.com/in/tarik-ozkan"},
+    {name:"Bilal Eryiğit",     url:"https://linkedin.com/in/busra-gunes"},
+    {name:"Erce Yörükoğlu",    url:"https://linkedin.com/in/tugba-yilmaz"},
+    {name:"Doğukan Kılıç",       url:"https://linkedin.com/in/alper-sen"},
+    {name:"Ahmet Eren Altın",     url:"https://linkedin.com/in/merve-kocak"},
+    {name:"Oğuzhan Öksüz",     url:"https://linkedin.com/in/tarik-ozkan"},
+    {name:"Emirhan Bulut",     url:"https://linkedin.com/in/busra-gunes"},
+    {name:"Yusuf İslam Sağdıç",    url:"https://linkedin.com/in/tugba-yilmaz"},
+    {name:"Semranur Civan",       url:"https://linkedin.com/in/alper-sen"},
+    {name:"Hafize Feyza Çelebi",     url:"https://linkedin.com/in/merve-kocak"},
+    {name:"Özge Uzunharman",     url:"https://linkedin.com/in/tarik-ozkan"},
+    {name:"Rukiye Esma Özdemir",     url:"https://linkedin.com/in/busra-gunes"},
+    {name:"Can Akkaya",    url:"https://linkedin.com/in/tugba-yilmaz"},
+    {name:"Gökçehan Gökçe",       url:"https://linkedin.com/in/alper-sen"},
+    {name:"Serdar Topuz",     url:"https://linkedin.com/in/merve-kocak"},
     {name:"Alperen Tatlı",     url:"https://linkedin.com/in/tarik-ozkan"},
-    {name:"Ahmet Eren",     url:"https://linkedin.com/in/busra-gunes"},
+    {name:"Mehmet Ali Ildırar",     url:"https://linkedin.com/in/busra-gunes"},
+    {name:"Dilara Gülen",    url:"https://linkedin.com/in/tugba-yilmaz"},
+    {name:"Elif Rana Tüzün",       url:"https://linkedin.com/in/alper-sen"},
+    {name:"Ali Berk Filiz",     url:"https://linkedin.com/in/merve-kocak"},
+    {name:"Ceren Hacıoğlu",     url:"https://linkedin.com/in/tarik-ozkan"},
   ],
   "rocket-members":[
-    {name:"Ulaş",     url:"https://linkedin.com/in/serdar-avci"},
-    {name:"Özbey",       url:"https://linkedin.com/in/ece-yaman"},
-    {name:"Gökdeniz",    url:"https://linkedin.com/in/ugur-bozkurt"},
-    {name:"Elif",    url:"https://linkedin.com/in/seda-karahan"},
-    {name:"Emirhan",     url:"https://linkedin.com/in/baris-erdem"},
-    {name:"Mert",       url:"https://linkedin.com/in/gizem-tan"},
+    {name:"Abdülmecit Kabasakal",     url:"https://linkedin.com/in/serdar-avci"},
+    {name:"Nurmuhammet Kayagil",       url:"https://linkedin.com/in/ece-yaman"},
+    {name:"Ali Yağız Uz",    url:"https://linkedin.com/in/ugur-bozkurt"},
+    {name:"Mert Şelik",    url:"https://linkedin.com/in/seda-karahan"},
+    {name:"Sudegül Bekmezci",     url:"https://linkedin.com/in/baris-erdem"},
+    {name:"Mehmet Ali Duran",       url:"https://linkedin.com/in/gizem-tan"},
+    {name:"Gökdeniz Yıldırım",     url:"https://linkedin.com/in/serdar-avci"},
+    {name:"Tayyip Arican",       url:"https://linkedin.com/in/ece-yaman"},
+    {name:"Melisa Zehiroğlu",    url:"https://linkedin.com/in/ugur-bozkurt"},
+    {name:"Yiğit Kağan Meriç",    url:"https://linkedin.com/in/seda-karahan"},
+    {name:"Yusuf Çevik",     url:"https://linkedin.com/in/baris-erdem"},
+    {name:"Salim Camcı",       url:"https://linkedin.com/in/gizem-tan"},
+    {name:"Abdullah Mert Genç",     url:"https://linkedin.com/in/serdar-avci"},
+    {name:"Mervenur Acar",       url:"https://linkedin.com/in/ece-yaman"},
+    {name:"Ozan Daldaban",    url:"https://linkedin.com/in/ugur-bozkurt"},
+    {name:"Elif Sevda Nur Dumru",    url:"https://linkedin.com/in/seda-karahan"},
+    {name:"Sueda Bekmezci",     url:"https://linkedin.com/in/baris-erdem"},
+    {name:"Işıl Altınbay",       url:"https://linkedin.com/in/gizem-tan"},
+    {name:"Ahmet Yusuf Özbey",     url:"https://linkedin.com/in/serdar-avci"},
+    {name:"Ata Oğul Karan",       url:"https://linkedin.com/in/ece-yaman"},
+    {name:"Gülsüm Yazıcı",    url:"https://linkedin.com/in/ugur-bozkurt"},
+    {name:"Berke Umut Şahintürk",    url:"https://linkedin.com/in/seda-karahan"},
+    {name:"Abdullah Enes Kayaalp",     url:"https://linkedin.com/in/baris-erdem"},
+    {name:"Furkan Uyar",       url:"https://linkedin.com/in/gizem-tan"},
+    {name:"Emir Han Avcı",     url:"https://linkedin.com/in/serdar-avci"},
+    {name:"Fırat Aydın",       url:"https://linkedin.com/in/ece-yaman"},
+    {name:"Yusuf Karaman",    url:"https://linkedin.com/in/ugur-bozkurt"},
+    {name:"Sude İpek",    url:"https://linkedin.com/in/seda-karahan"},
+    {name:"Nazlı Hilal İletmiş",     url:"https://linkedin.com/in/baris-erdem"},
+    {name:"Muhammet Yiğit Yılmaz",       url:"https://linkedin.com/in/gizem-tan"},
+    {name:"Tuğba Can",     url:"https://linkedin.com/in/serdar-avci"},
+    {name:"Fatıma Tüz Zehra Turgut",       url:"https://linkedin.com/in/ece-yaman"},
+    {name:"İlyas Dilben",    url:"https://linkedin.com/in/ugur-bozkurt"},
+    {name:"Ömer Faruk Yaman",    url:"https://linkedin.com/in/seda-karahan"},
+    {name:"Emirhan Yusuf Özçelik",     url:"https://linkedin.com/in/baris-erdem"},
+    {name:"Ayşe Betül Yılmaz",       url:"https://linkedin.com/in/gizem-tan"},
+    {name:"İlke Yatmaz",     url:"https://linkedin.com/in/serdar-avci"},
+    {name:"Zeynep Öztürk",       url:"https://linkedin.com/in/ece-yaman"},
+    {name:"Efe Kağan Önem",    url:"https://linkedin.com/in/ugur-bozkurt"},
+    {name:"Alp Bora Görüşken",    url:"https://linkedin.com/in/seda-karahan"},
+    {name:"Elif Doğan",     url:"https://linkedin.com/in/baris-erdem"},
+    {name:"Abdullah Cumhur",       url:"https://linkedin.com/in/gizem-tan"},
+    {name:"Batuhan Baş",       url:"https://linkedin.com/in/ece-yaman"},
+    {name:"Eren Balcı",    url:"https://linkedin.com/in/ugur-bozkurt"},
+    {name:"Namık Hisar",    url:"https://linkedin.com/in/seda-karahan"},
+    {name:"Emir Han Bulut",     url:"https://linkedin.com/in/baris-erdem"},
+    {name:"Ömer Faruk Ekim",       url:"https://linkedin.com/in/gizem-tan"},
+    {name:"Dilara Araci",    url:"https://linkedin.com/in/seda-karahan"},
+    {name:"Ulaş Kayra Sarı",     url:"https://linkedin.com/in/baris-erdem"},
   ],
 };
 
 function isMemberBubble(id){
-  return id&&(id.includes('members')||id.includes('active-members'))||MEMBERS_DATA[id]!==undefined;
+  return id&&(id.includes('members')||id.includes('active-members')||MEMBERS_DATA[id]!==undefined);
 };
 
 /* ══════════════════════════════════════════════════════════
    DETAIL PANEL
 ══════════════════════════════════════════════════════════ */
+const CONTENT = {
+  "org-bem":        "BEM is our core engineering methodology. We follow structured component-based design across all projects.",
+
+  "org-datathon":   "Our annual datathon brings together students to solve real-world problems using data science.",
+
+  "gen-vision":     "We aim to become Turkey's leading student engineering community, bridging academia and industry.",
+
+  "gen-comm":       "Reach out to us through this form or follow our social media channels for updates.",
+
+  "racing-project": "The racing car is designed and built entirely by our team. Currently competing in Formula Student.",
+  
+  "racing-members": ["YTU Racing üyeleri; Makine, Elektrik-Elektronik, Kontrol-Otomasyon, Mekatronik, Elektronik-Haberleşme ve Metalurji-Malzeme mühendisliği öğrencilerinden oluşan yaklaşık 35 kişilik multidisipliner bir ekipten meydana gelmektedir.",  
+  "Takım bünyesinde Araç Dinamiği, Powertrain, E-Powertrain, Aerodinamik, Kompozit, Otonom ve Organizasyon departmanları bulunmaktadır. Her üye kendi uzmanlık alanında çalışarak yarış aracının tasarım, üretim, test ve yarış süreçlerine doğrudan katkı sağlar.",
+  "Üyelerimiz yalnızca teknik geliştirmelerde değil; aynı zamanda sponsorluk ilişkileri, proje yönetimi ve organizasyon faaliyetlerinde de aktif rol almaktadır.",
+],
+  "astrid-project": "Astrid is our autonomous drone project. It uses computer vision for obstacle avoidance.",
+  "sigma-project":  "Sigma is our underwater vehicle project. Built for the MATE ROV competition.",
+  "rocket-members": "Yıldız Roket Takımı üyeleri; Makine, Elektrik-Elektronik, Havacılık, Kontrol-Otomasyon, Bilgisayar, Kimya ve Metalurji-Malzeme mühendisliği başta olmak üzere farklı disiplinlerden oluşmaktadır. Takım bünyesinde Yapısal, Aviyonik, İtki ve Organizasyon departmanlarında aktif görev alan öğrenciler yer almaktadır. Her üye kendi uzmanlık alanında çalışarak roketin tasarım, üretim, test ve uçuş süreçlerine doğrudan katkı sağlar. Üyelerimiz yalnızca teknik çalışmalarda değil; aynı zamanda proje yönetimi, sponsorluk görüşmeleri ve organizasyon faaliyetlerinde de aktif rol almaktadır.",
+  "rocket-project": ["Yıldız Roket Takımı projeleri; yüksek güçlü roket sistemleri, faydalı yük entegrasyonu, hibrit roket motorları ve aktif kontrollü uçuş teknolojileri üzerine yoğunlaşmaktadır.",
+  " Ana projelerimiz ARTAM yüksek güç roket serisi ve DEMİRKAZIK hibrit roket motoru hattıdır.",
+  " ARTAM-I roketi yaklaşık 7 km irtifa, 1.65 Mach maksimum hız ve 550 m/s üzeri tepe hızına ulaşacak şekilde tasarlanmıştır. Proje kapsamında aerodinamik analizler, yapısal optimizasyon, kurtarma sistemleri ve aviyonik haberleşme altyapısı entegre biçimde geliştirilmektedir.",
+  " DEMİRKAZIK projesi ise parafin bazlı yakıt ve N₂O oksitleyici kullanan hibrit motor mimarisi üzerine odaklanmaktadır."],
+  "rocket-sponsor": "Projelerimiz; üniversite, sanayi ve bireysel destekçilerimizin katkılarıyla hayata geçirilmektedir . Sponsorlarımız üretim süreçleri, malzeme temini, test altyapısı ve lojistik destek konularında takımımıza önemli katkılar sağlamaktadır. Yeni iş birliklerine ve teknik sponsorluklara her zaman açığız.",
+  "rocket-history": ["2017 – Takımın kuruluşu",  
+"2018 – İlk uçuş denemesi ve sistem iyileştirmeleri  ",
+"2019 – Teknofest yarışmalarında derece  ",
+"2020 – İlk hibrit motor ateşlemesi  ",
+"2021 – Yeniden kullanılabilir roket geliştirme  ",
+"2022 – İlk başarılı uçuş  ",
+"2023 – ARTAM ve DEMİRKAZIK projelerinin tamamlanması  ",
+"2024 – Hibrit motorlu roket ile Teknofest finali  ",
+
+"Bu süreç boyunca takım; aerodinamik, itki, aviyonik ve kurtarma sistemlerinde sürekli gelişim göstermiştir.",
+
+"Bugün Rocket ekibi aktif kontrollü uçuş ve hibrit motor teknolojileri üzerine çalışmalarını sürdürmektedir.",],
+
+};
 function Panel({node,panelW,onBack}){
   const g=GROUPS[node.group];
   const bigR=Math.min(80,node.r*1.3);
   const panelRef=useRef(null);
   const [hovMember,setHovMember]=useState(null);
+  const [form,setForm]=useState({name:'',email:'',message:''});
+  const [sent,setSent]=useState(false);
+  const [sending,setSending]=useState(false);
+  const [formErr,setFormErr]=useState('');
+  const isContact=node.id==='gen-comm';
+
+  const handleSend=()=>{
+    if(!form.name||!form.email||!form.message){
+      setFormErr('Please fill in all fields.');
+      return;
+    }
+    setFormErr('');
+    setSending(true);
+    // Replace these three values with your EmailJS credentials:
+    emailjs.send(
+      'YOUR_SERVICE_ID',
+      'YOUR_TEMPLATE_ID',
+      { from_name:form.name, from_email:form.email, message:form.message },
+      'YOUR_PUBLIC_KEY'
+    )
+    .then(()=>{
+      setSending(false);
+      setSent(true);
+      setTimeout(()=>{ setSent(false); setForm({name:'',email:'',message:''}); },3500);
+    })
+    .catch(()=>{
+      setSending(false);
+      setFormErr('Failed to send. Please try again.');
+    });
+  };
 
   // Slide in
   useEffect(()=>{
@@ -475,8 +656,10 @@ function Panel({node,panelW,onBack}){
     // Scrollable body
     React.createElement('div',{
       className:'ps',
-      style:{flex:1,overflowY:'auto',display:'flex',flexDirection:'column',
-        alignItems:'center',padding:'80px 40px 60px',gap:0}
+      style:{flex:1,overflowY:'scroll',display:'flex',flexDirection:'column',
+  alignItems:'center',padding:'80px 40px 60px',gap:0,
+  scrollbarWidth:'thin',
+  scrollbarColor:`#D4CEC9 transparent`,}
     },
 
       /* ① LARGE ICON at top */
@@ -557,12 +740,17 @@ function Panel({node,panelW,onBack}){
       
       /* ④ TEXT CONTENT */
       React.createElement('div',{style:{width:'100%',marginTop:24,animation:'contentIn 0.5s ease 0.32s both'}},
-        React.createElement('p',{style:{
-          fontFamily:"'DM Mono',monospace",fontSize:'0.76rem',
-          lineHeight:1.9,color:C.navy,opacity:0.6,
-        }},
-          `This section covers everything related to ${node.label}. Detailed documentation, timelines, and resources for the ${g.label} domain live here.`
-        ),
+      React.createElement('div',{style:{display:'flex',flexDirection:'column',gap:12}},
+  (Array.isArray(CONTENT[node.id])
+    ? CONTENT[node.id]
+    : [CONTENT[node.id] || `This section covers everything related to ${node.label}.`]
+  ).map((para,i)=>
+    React.createElement('p',{key:i,style:{
+      fontFamily:"'DM Mono',monospace",fontSize:'0.76rem',
+      lineHeight:1.9,color:C.navy,opacity:0.6,
+    }},para)
+  )
+),
       ),
 
       /* ⑤ MEMBERS LIST — only for member bubbles */
@@ -622,6 +810,94 @@ function Panel({node,panelW,onBack}){
               fontFamily:"'DM Mono',monospace",fontSize:'0.7rem',
               color:C.navy,opacity:0.4,fontStyle:'italic',
             }},'No members data available.'),
+      ),
+
+      /* ⑥ CONTACT FORM — only for gen-comm */
+      isContact && React.createElement('div',{
+        style:{width:'100%',marginTop:28,animation:'contentIn 0.5s ease 0.44s both'}
+      },
+        // Section label
+        React.createElement('p',{style:{
+          fontFamily:"'DM Mono',monospace",fontSize:'0.52rem',
+          letterSpacing:'0.22em',textTransform:'uppercase',
+          color:C.navy,opacity:0.38,marginBottom:14,
+          paddingBottom:8,borderBottom:'1px solid #EDE8E5',
+        }},'Send a Message'),
+
+        sent
+          // ── Success state ──
+          ? React.createElement('div',{style:{
+              padding:'18px 20px',borderRadius:6,
+              background:'#F0F7F4',
+              border:`1.5px solid ${g.color}`,
+              display:'flex',alignItems:'center',gap:12,
+              fontFamily:"'DM Mono',monospace",fontSize:'0.72rem',
+              color:C.navy,
+            }},
+              React.createElement('svg',{xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:2,stroke:g.color,width:18,height:18,style:{flexShrink:0}},
+                React.createElement('path',{strokeLinecap:"round",strokeLinejoin:"round",d:"M4.5 12.75l6 6 9-13.5"})
+              ),
+              'Message sent successfully!'
+            )
+          // ── Form ──
+          : React.createElement('div',{style:{display:'flex',flexDirection:'column',gap:12}},
+
+              // Name
+              React.createElement('div',{style:{display:'flex',flexDirection:'column',gap:5}},
+                React.createElement('label',{style:{fontFamily:"'DM Mono',monospace",fontSize:'0.5rem',letterSpacing:'0.16em',textTransform:'uppercase',color:C.navy,opacity:0.45}},'Full Name'),
+                React.createElement('input',{
+                  type:'text',value:form.name,placeholder:'Your name',
+                  onChange:e=>setForm(f=>({...f,name:e.target.value})),
+                  style:{padding:'10px 14px',border:'1.5px solid #E5E0DD',borderRadius:4,fontFamily:"'DM Mono',monospace",fontSize:'0.75rem',color:C.navy,outline:'none',background:'#FAFAF9',transition:'border-color 0.2s',},
+                  onFocus:e=>e.target.style.borderColor=g.color,
+                  onBlur:e=>e.target.style.borderColor='#E5E0DD',
+                })
+              ),
+
+              // Email
+              React.createElement('div',{style:{display:'flex',flexDirection:'column',gap:5}},
+                React.createElement('label',{style:{fontFamily:"'DM Mono',monospace",fontSize:'0.5rem',letterSpacing:'0.16em',textTransform:'uppercase',color:C.navy,opacity:0.45}},'Email'),
+                React.createElement('input',{
+                  type:'email',value:form.email,placeholder:'your@email.com',
+                  onChange:e=>setForm(f=>({...f,email:e.target.value})),
+                  style:{padding:'10px 14px',border:'1.5px solid #E5E0DD',borderRadius:4,fontFamily:"'DM Mono',monospace",fontSize:'0.75rem',color:C.navy,outline:'none',background:'#FAFAF9',transition:'border-color 0.2s',},
+                  onFocus:e=>e.target.style.borderColor=g.color,
+                  onBlur:e=>e.target.style.borderColor='#E5E0DD',
+                })
+              ),
+
+              // Message
+              React.createElement('div',{style:{display:'flex',flexDirection:'column',gap:5}},
+                React.createElement('label',{style:{fontFamily:"'DM Mono',monospace",fontSize:'0.5rem',letterSpacing:'0.16em',textTransform:'uppercase',color:C.navy,opacity:0.45}},'Message'),
+                React.createElement('textarea',{
+                  value:form.message,placeholder:'Write your message here...',rows:5,
+                  onChange:e=>setForm(f=>({...f,message:e.target.value})),
+                  style:{padding:'10px 14px',border:'1.5px solid #E5E0DD',borderRadius:4,fontFamily:"'DM Mono',monospace",fontSize:'0.75rem',color:C.navy,outline:'none',background:'#FAFAF9',resize:'vertical',transition:'border-color 0.2s',},
+                  onFocus:e=>e.target.style.borderColor=g.color,
+                  onBlur:e=>e.target.style.borderColor='#E5E0DD',
+                })
+              ),
+
+              // Error message
+              formErr && React.createElement('p',{style:{fontFamily:"'DM Mono',monospace",fontSize:'0.65rem',color:'#BF512C',margin:0}},formErr),
+
+              // Send button
+              React.createElement('button',{
+                onClick:handleSend,
+                disabled:sending,
+                style:{
+                  marginTop:4,padding:'12px 24px',
+                  background:sending?'#ccc':g.color,
+                  color:g.text,border:'none',borderRadius:4,cursor:sending?'not-allowed':'pointer',
+                  fontFamily:"'DM Mono',monospace",fontSize:'0.6rem',
+                  letterSpacing:'0.18em',textTransform:'uppercase',
+                  alignSelf:'flex-start',
+                  transition:'transform 0.2s, box-shadow 0.2s, background 0.2s',
+                },
+                onMouseEnter:e=>{ if(!sending){ e.currentTarget.style.transform='scale(1.04)'; e.currentTarget.style.boxShadow=`0 8px 24px -6px ${g.color}99`; }},
+                onMouseLeave:e=>{ e.currentTarget.style.transform='scale(1)'; e.currentTarget.style.boxShadow='none'; },
+              }, sending ? 'Sending...' : 'Send Message →')
+            )
       )
     )
   );
