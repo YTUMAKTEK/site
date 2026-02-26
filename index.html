@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=5, user-scalable=yes"/>
 <title>Organization Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
@@ -63,12 +63,12 @@ const {useState,useEffect,useRef,useCallback,useMemo}=React;
 /* ── Palette ─────────────────────────────────────────────── */
 const C={bg:'#FFFFFF',navy:'#0C2C47',mauve:'#D6C9C5',yellow:'#DA9B2B',green:'#2E5749',orange:'#BF512C',mint:'#ABCBCA'};
 const GROUPS={
-  org:    {label:'Organization',color:C.yellow,  text:C.navy},
-  general:{label:'General',     color:C.mauve, text:C.navy},
-  racing: {label:'Racing',      color:C.navy,text:'#fff'},
-  astrid: {label:'Astrid',      color:C.green, text:'#fff'},
-  sigma:  {label:'Sigma',       color:C.orange,text:'#fff'},
-  rocket: {label:'Rocket',      color:C.mint,  text:C.navy},
+  org:    {label:'Organizasyon',color:C.yellow,  text:C.navy},
+  general:{label:'MAK-TEK',     color:C.mauve, text:C.navy},
+  racing: {label:'YTÜ Racing',      color:C.navy,text:'#fff'},
+  astrid: {label:'Astrid Otonom',      color:C.green, text:'#fff'},
+  sigma:  {label:'Sigma Aeronautics',       color:C.orange,text:'#fff'},
+  rocket: {label:'Yıldız Roket',      color:C.mint,  text:C.navy},
 };
 
 /* ── Heroicons SVG paths ─────────────────────────────────── */
@@ -118,46 +118,46 @@ function FAIcon({name,size,color}){
 }
 /* ── Node Definitions ────────────────────────────────────── */
 const RAW=[
-  {id:"org-bem",         label:"BEM",                   group:"org",    icon:"chart",    r:46, photo:"photos/bem.jpg",},
+  {id:"org-bem",         label:"BEMDays",                   group:"org",    icon:"chart",    r:46, photo:"photos/bem.jpg",},
   {id:"org-datathon",    label:"Datathon",               group:"org",    icon:"grid",   r:56, photo:"photos/datathon.jpg", fa:"fa-solid fa-code"},
-  {id:"org-auto-evo",    label:"Automotive Evolution",   group:"org",    icon:"grid",     r:64, photo:"photos/otomobilinevrimi.JPG",  fa:"fa-solid fa-car"},
-  {id:"org-defense",     label:"Defense Industry Days",  group:"org",    icon:"grid",    r:50, photo:"photos/ssg.jpg", fa:"fa-solid fa-industry"},
-  {id:"org-ces",         label:"CES",                    group:"org",    icon:"bolt",    r:42, },
-  {id:"org-tubitak",     label:"TUBITAK Projects",       group:"org",    icon:"beaker",  r:54, photo:"photos/org-tubitak.jpg",},
-  {id:"org-members",     label:"Org Members",            group:"org",    icon:"users",   r:48, photo:"photos/maktekorg.jpg",},
-  {id:"org-sponsors",    label:"Sponsor List",           group:"org",    icon:"star",    r:44, photo:"photos/org-sponsor.JPG",},
-  {id:"org-side",        label:"Side Projects",          group:"org",    icon:"wrench",  r:46, photo:"photos/org-side.jpeg",},
-  {id:"org-schema",      label:"Org Schema",             group:"org",    icon:"grid",r:60, photo:"photos/orgschema.jpg", fa:"fa-solid fa-list"},
-  {id:"gen-vision",      label:"Vision & Mission",       group:"general",img:"icons/mak-tek.png",    r:62, iconScale:1.4, panelIconScale:1.7, photo:"photos/vizyonmisyon.jpg",},
-  {id:"gen-members",       label:"Board Members",          group:"general",icon:"users",   r:52},
-  {id:"gen-ins",    label:"Responsible Instructors",group:"general",icon:"grid",    r:46, photo:"photos/hoca.jpeg", fa:"fa-solid fa-graduation-cap"},
-  {id:"gen-contact",     label:"Contact Us",             group:"general",icon:"phone",   r:44, photo:"photos/gen-contact.JPG",},
-  {id:"gen-comm",        label:"Communication",          group:"general",icon:"mail",    r:50, photo:"photos/gen-comm.JPG",},
-  {id:"gen-thanks",      label:"Thank You",              group:"general",icon:"heart",   r:42, photo:"photos/gen-thanks.JPG",},
-  {id:"racing-members",  label:"Racing Members",         group:"racing", icon:"users",   r:52, photo:"photos/racingmembers.jpg",},
-  {id:"racing-project", label:"Racing Project", group:"racing", img:"icons/racing.png", r:66, iconScale:1.7, panelIconScale:1.7, photo:"photos/racingproject.jpg",},
-  {id:"racing-sponsors", label:"Racing Sponsors",        group:"racing", icon:"star",    r:44,photo:"photos/racingsponsor.jpg",},
-  {id:"racing-contact",  label:"Racing Contact",         group:"racing", icon:"phone",    r:46,photo:"photos/racingcontact.jpg",},
-  {id:"racing-org",      label:"Racing Org",             group:"racing", icon:"grid",r:50,photo:"photos/racingorg.jpg", fa:"fa-solid fa-list"},
-  {id:"racing-history",  label:"Racing History",         group:"racing", icon:"trophy",  r:48,photo:"photos/racinghistory.jpg",},
-  {id:"astrid-members",  label:"Astrid Members",         group:"astrid", icon:"users",   r:50, photo:"photos/astridmembers.jpg",},
-  {id:"astrid-project",  label:"Astrid Project",         group:"astrid", img:"icons/astrid.png",   r:68, iconScale:1.7, panelIconScale:1.7, photo:"photos/astridproject.jpg",},
-  {id:"astrid-sponsors", label:"Astrid Sponsors",        group:"astrid", icon:"star",    r:42,photo:"photos/astridsponsor.jpg",},
-  {id:"astrid-contact",  label:"Astrid Contact",         group:"astrid", icon:"phone",   r:44,photo:"photos/astridcontact.jpg",},
-  {id:"astrid-org",      label:"Astrid Org",             group:"astrid", icon:"grid",     r:52,photo:"photos/astridorg.jpg", fa:"fa-solid fa-list"},
-  {id:"astrid-history",  label:"Astrid History",         group:"astrid", icon:"trophy",r:48, photo:"photos/astridhistory.JPG",},
-  {id:"sigma-members",   label:"Sigma Members",          group:"sigma",  icon:"users",   r:48, photo:"photos/sigmamembers.JPG"},
-  {id:"sigma-project",   label:"Sigma Project",          group:"sigma",  img:"icons/sigma.png",    r:66, iconScale:1.7, photo:"photos/sigmaproject.JPG", panelIconScale:1.7},
-  {id:"sigma-sponsors",  label:"Sigma Sponsors",         group:"sigma",  icon:"star",    r:44, photo:"photos/sigmasponsor.jpg",},
-  {id:"sigma-contact",   label:"Sigma Contact",          group:"sigma", icon:"phone",    r:46, photo:"photos/sigmacontact.jpg",},
-  {id:"sigma-org",       label:"Sigma Org",              group:"sigma",  icon:"grid",r:50, photo:"photos/sigmaorg.jpg", fa:"fa-solid fa-list"},
-  {id:"sigma-history",   label:"Sigma History",          group:"sigma",  icon:"trophy",  r:52, photo:"photos/sigmahistory.jpg",},
-  {id:"rocket-members",  label:"Rocket Members",         group:"rocket", icon:"users",   r:48, photo:"photos/rokethistory.jpg",},
-  {id:"rocket-project",  label:"Rocket Project",         group:"rocket", img:"icons/roket.png",   r:50, iconScale:1.7, panelIconScale:1.7, photo:"photos/roketproject.jpg",},
-  {id:"rocket-sponsors", label:"Rocket Sponsors",        group:"rocket", icon:"star",    r:44, photo:"photos/roketsponsor.jpg",},
-  {id:"rocket-contact",  label:"Rocket Contact",         group:"rocket", icon:"phone",    r:46,photo:"photos/roketcontact.jpg",},
-  {id:"rocket-org",      label:"Rocket Org",             group:"rocket", icon:"grid",     r:52,photo:"photos/roketorg.jpg", fa:"fa-solid fa-list"},
-  {id:"rocket-history",  label:"Rocket History",         group:"rocket", icon:"trophy",r:48,photo:"photos/rokethistory.jpg",},
+  {id:"org-auto-evo",    label:"Otomobilin Evrimi",   group:"org",    icon:"grid",     r:64, photo:"photos/otomobilinevrimi.JPG",  fa:"fa-solid fa-car"},
+  {id:"org-defense",     label:"Savunma Sanayi Günleri",  group:"org",    icon:"grid",    r:50, photo:"photos/ssg.jpg", fa:"fa-solid fa-industry"},
+  {id:"org-ces",         label:"CES Ekibi",                    group:"org",    icon:"bolt",    r:42, },
+  {id:"org-tubitak",     label:"TÜBİTAK Projeleri",       group:"org",    icon:"beaker",  r:54, photo:"photos/org-tubitak.jpg",},
+  {id:"org-members",     label:"Organizasyon Üyeleri",            group:"org",    icon:"users",   r:48, photo:"photos/maktekorg.jpg",},
+  {id:"org-sponsors",    label:"Sponsor Listesi",           group:"org",    icon:"star",    r:44, photo:"photos/org-sponsor.JPG",},
+  {id:"org-side",        label:"Yan Projeler",          group:"org",    icon:"wrench",  r:46, photo:"photos/org-side.jpeg",},
+  {id:"org-schema",      label:"Organizasyon Ekibi Şeması",             group:"org",    icon:"grid",r:60, photo:"photos/orgschema.jpg", fa:"fa-solid fa-list"},
+  {id:"gen-vision",      label:"Vizyon & Misyon",       group:"general",img:"icons/mak-tek.png",    r:62, iconScale:1.4, panelIconScale:1.7, photo:"photos/vizyonmisyon.jpg",},
+  {id:"gen-members",       label:"Yönetim Kurulu Üyeleri",          group:"general",icon:"users",   r:52},
+  {id:"gen-ins",    label:"Danışman Öğretmenlerimiz",group:"general",icon:"grid",    r:46, photo:"photos/hoca.jpeg", fa:"fa-solid fa-graduation-cap"},
+  {id:"gen-contact",     label:"Bize Ulaşın",             group:"general",icon:"phone",   r:44, photo:"photos/gen-contact.JPG",},
+  {id:"gen-comm",        label:"Bize Bir Geridönüş Bırakın",          group:"general",icon:"mail",    r:50, photo:"photos/gen-comm.JPG",},
+  {id:"gen-thanks",      label:"Teşekkür Ederiz!",              group:"general",icon:"heart",   r:42, photo:"photos/gen-thanks.JPG",},
+  {id:"racing-members",  label:"YTÜ Racing Üyeleri",         group:"racing", icon:"users",   r:52, photo:"photos/racingmembers.jpg",},
+  {id:"racing-project", label:"YTÜ Racing Takımı", group:"racing", img:"icons/racing.png", r:66, iconScale:1.7, panelIconScale:1.7, photo:"photos/racingproject.jpg",},
+  {id:"racing-sponsors", label:"YTÜ Racing Sponsorları",        group:"racing", icon:"star",    r:44,photo:"photos/racingsponsor.jpg",},
+  {id:"racing-contact",  label:"YTÜ Racing ile İletişime Geçin",         group:"racing", icon:"phone",    r:46,photo:"photos/racingcontact.jpg",},
+  {id:"racing-org",      label:"YTÜ Racing Organizasyon Şeması",             group:"racing", icon:"grid",r:50,photo:"photos/racingorg.jpg", fa:"fa-solid fa-list"},
+  {id:"racing-history",  label:"YTÜ Racing Tarihçesi",         group:"racing", icon:"trophy",  r:48,photo:"photos/racinghistory.jpg",},
+  {id:"astrid-members",  label:"Astrid Otonom Üyeleri",         group:"astrid", icon:"users",   r:50, photo:"photos/astridmembers.jpg",},
+  {id:"astrid-project",  label:"Astrid Otonom Takımı",         group:"astrid", img:"icons/astrid.png",   r:68, iconScale:1.7, panelIconScale:1.7, photo:"photos/astridproject.jpg",},
+  {id:"astrid-sponsors", label:"Astrid Otonom Sponsorları",        group:"astrid", icon:"star",    r:42,photo:"photos/astridsponsor.jpg",},
+  {id:"astrid-contact",  label:"Astrid Otonom ile İletişime Geçin",         group:"astrid", icon:"phone",   r:44,photo:"photos/astridcontact.jpg",},
+  {id:"astrid-org",      label:"Astrid Otonom Organizasyon Şeması",             group:"astrid", icon:"grid",     r:52,photo:"photos/astridorg.jpg", fa:"fa-solid fa-list"},
+  {id:"astrid-history",  label:"Astrid Otonom Tarihçesi",         group:"astrid", icon:"trophy",r:48, photo:"photos/astridhistory.JPG",},
+  {id:"sigma-members",   label:"Sigma Aeronautics Üyeleri",          group:"sigma",  icon:"users",   r:48, photo:"photos/sigmamembers.JPG"},
+  {id:"sigma-project",   label:"Sigma Aeronautics Takımı",          group:"sigma",  img:"icons/sigma.png",    r:66, iconScale:1.7, photo:"photos/sigmaproject.JPG", panelIconScale:1.7},
+  {id:"sigma-sponsors",  label:"Sigma Aeronautics Sponsorları",         group:"sigma",  icon:"star",    r:44, photo:"photos/sigmasponsor.jpg",},
+  {id:"sigma-contact",   label:"Sigma Aeronautics ile İletişime Geçin",          group:"sigma", icon:"phone",    r:46, photo:"photos/sigmacontact.jpg",},
+  {id:"sigma-org",       label:"Sigma Aeronautics Organizasyon Şeması",              group:"sigma",  icon:"grid",r:50, photo:"photos/sigmaorg.jpg", fa:"fa-solid fa-list"},
+  {id:"sigma-history",   label:"Sigma Aeronautics Tarihçesi",          group:"sigma",  icon:"trophy",  r:52, photo:"photos/sigmahistory.jpg",},
+  {id:"rocket-members",  label:"Yıldız Roket Üyeleri",         group:"rocket", icon:"users",   r:48, photo:"photos/rokethistory.jpg",},
+  {id:"rocket-project",  label:"Yıldız Roket Takımı",         group:"rocket", img:"icons/roket.png",   r:50, iconScale:1.7, panelIconScale:1.7, photo:"photos/roketproject.jpg",},
+  {id:"rocket-sponsors", label:"Yıldız Roket Sponsorları",        group:"rocket", icon:"star",    r:44, photo:"photos/roketsponsor.jpg",},
+  {id:"rocket-contact",  label:"Yıldız Roket ile İletişime Geçin",         group:"rocket", icon:"phone",    r:46,photo:"photos/roketcontact.jpg",},
+  {id:"rocket-org",      label:"Yıldız Roket Organizasyon Şeması",             group:"rocket", icon:"grid",     r:52,photo:"photos/roketorg.jpg", fa:"fa-solid fa-list"},
+  {id:"rocket-history",  label:"Yıldız Roket Tarihçesi",         group:"rocket", icon:"trophy",r:48,photo:"photos/rokethistory.jpg",},
 ];
 
 /* ── Force-directed layout (pure JS) ────────────────────── */
