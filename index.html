@@ -1179,13 +1179,25 @@ function ZoomControl({zoom,setZoom,hidden}){
 /* ══════════════════════════════════════════════════════════
    APP ROOT
 ══════════════════════════════════════════════════════════ */
+// Fixed large canvas — circles always simulate and spread on this space
+const SIM_W=1800;
+const SIM_H=2000;
+
 function App(){
   const [wh,setWh]=useState({w:window.innerWidth,h:window.innerHeight});
   const [nodes,setNodes]=useState([]);
   const [selected,setSelected]=useState(null);
   const [hovered,setHovered]=useState(null);
-  // ↑ CHANGE 2: start at 0.68 (zoomed-out overview), let user zoom in
-  const [zoom,setZoom]=useState(1.2);
+  const touchRef=useRef({});
+
+  // Auto-fit: start zoomed so ALL circles are visible on any screen
+  const initZoom=()=>{
+  const isMobile=window.innerWidth<768;
+  if(isMobile) return Math.min(window.innerWidth/SIM_W,window.innerHeight/SIM_H)*2;
+  return 1.5;
+};
+const [zoom,setZoom]=useState(initZoom);
+  const [pan,setPan]=useState({x:0,y:0});
   const [panelKey,setPanelKey]=useState(0);
   const hasSel=!!selected;
 
@@ -1195,49 +1207,80 @@ function App(){
     return()=>window.removeEventListener('resize',fn);
   },[]);
 
+  // Always simulate on the large fixed canvas
   useEffect(()=>{
-    const ns=runSim(RAW.map(n=>({...n})),wh.w,wh.h);
+    const ns=runSim(RAW.map(n=>({...n})),SIM_W,SIM_H);
     setNodes(ns);
-  },[wh]);
+  },[]);
 
-  // Wheel zoom
+  // Desktop: mouse wheel zoom
   useEffect(()=>{
-    const fn=e=>{ e.preventDefault(); setZoom(z=>Math.max(0.5,Math.min(2.5,z-e.deltaY/550))); };
+    const fn=e=>{ e.preventDefault(); setZoom(z=>Math.max(0.2,Math.min(2.5,z-e.deltaY/550))); };
     window.addEventListener('wheel',fn,{passive:false});
     return()=>window.removeEventListener('wheel',fn);
   },[]);
 
-  const handleSelect=useCallback((node)=>{
-    setSelected(node);
-    setPanelKey(k=>k+1);
-  },[]);
+  // Mobile: pinch-to-zoom + one-finger pan
+  useEffect(()=>{
+    const el=document.getElementById('hub-stage');
+    if(!el)return;
+    const onTS=e=>{
+      if(e.touches.length===2){
+        touchRef.current={mode:'pinch',
+          d0:Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY),
+          z0:zoom};
+      } else if(e.touches.length===1&&!hasSel){
+        touchRef.current={mode:'pan',
+          x0:e.touches[0].clientX,y0:e.touches[0].clientY,px0:pan.x,py0:pan.y};
+      }
+    };
+    const onTM=e=>{
+      e.preventDefault();
+      const t=touchRef.current;
+      if(t.mode==='pinch'&&e.touches.length===2){
+        const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+        setZoom(Math.max(0.2,Math.min(2.5,t.z0*(d/t.d0))));
+      } else if(t.mode==='pan'&&e.touches.length===1){
+        setPan({x:t.px0+(e.touches[0].clientX-t.x0),y:t.py0+(e.touches[0].clientY-t.y0)});
+      }
+    };
+    const onTE=()=>{ touchRef.current={}; };
+    el.addEventListener('touchstart',onTS,{passive:false});
+    el.addEventListener('touchmove',onTM,{passive:false});
+    el.addEventListener('touchend',onTE);
+    return()=>{
+      el.removeEventListener('touchstart',onTS);
+      el.removeEventListener('touchmove',onTM);
+      el.removeEventListener('touchend',onTE);
+    };
+  },[zoom,pan,hasSel]);
 
-  const handleBack=useCallback(()=>{
-    setSelected(null);
-  },[]);
+  const handleSelect=useCallback((node)=>{ setSelected(node); setPanelKey(k=>k+1); },[]);
+  const handleBack=useCallback(()=>{ setSelected(null); },[]);
 
-  const panelW=Math.min(490,wh.w*0.88);
-  // When panel is open, shift stage left to give breathing room
-  const stageShift=hasSel ? -panelW*0.28 : 0;
+  const panelW=Math.min(490,wh.w*0.95);
+  const stageShift=hasSel?-panelW*0.3:0;
 
   return React.createElement('div',{style:{
-    position:'fixed',inset:0,background:C.bg,overflow:'hidden',
+    position:'fixed',inset:0,background:C.bg,overflow:'hidden',touchAction:'none',
   }},
-    /* ── Zoomable stage ── */
-    React.createElement('div',{style:{
-      position:'absolute',inset:0,
-      transform:`scale(${zoom}) translateX(${stageShift/zoom}px)`,
-      transformOrigin:'center center',
-      transition:'transform 0.55s cubic-bezier(0.22,1,0.36,1)',
-      willChange:'transform',
-    }},
+    /* ── Zoomable + pannable stage ── */
+    React.createElement('div',{
+      id:'hub-stage',
+      style:{
+        position:'absolute',
+        width:SIM_W,height:SIM_H,
+        left:`calc(50% - ${SIM_W/2}px)`,
+        top:`calc(50% - ${SIM_H/2}px)`,
+        transform:`scale(${zoom}) translate(${(pan.x+stageShift)/zoom}px,${pan.y/zoom}px)`,
+        transformOrigin:'center center',
+        transition:hasSel?'transform 0.5s cubic-bezier(0.22,1,0.36,1)':'',
+        willChange:'transform',
+      }
+    },
       nodes.map((n,i)=>React.createElement(NodeCircle,{
-        key:n.id,node:n,
-        g:GROUPS[n.group],
-        idx:i,
-        selected,hovered,
-        setHovered,
-        setSelected:handleSelect,
+        key:n.id,node:n,g:GROUPS[n.group],idx:i,
+        selected,hovered,setHovered,setSelected:handleSelect,
       }))
     ),
 
@@ -1245,37 +1288,29 @@ function App(){
     React.createElement('div',{style:{
       position:'fixed',top:0,left:0,right:0,zIndex:200,
       display:'flex',alignItems:'center',justifyContent:'space-between',
-      padding:'24px 44px',
+      padding:'16px 24px',
       opacity:hasSel?0:1,
       transform:hasSel?'translateY(-14px)':'translateY(0)',
       transition:'all 0.35s ease',
       pointerEvents:hasSel?'none':'auto',
     }},
-    React.createElement('img',{src:'Maktek_logo.png',alt:'Maktek',style:{height:80,width:'auto',objectFit:'contain',display:'block'}}),
+      React.createElement('img',{src:'Maktek_logo.png',alt:'Maktek',style:{height:48,width:'auto',objectFit:'contain',display:'block'}}),
       React.createElement('span',{style:{fontFamily:"'DM Mono',monospace",fontSize:'0.57rem',letterSpacing:'0.22em',textTransform:'uppercase',color:C.navy,opacity:0.38}},
-        `${RAW.length} Topics`
-      )
+        `${RAW.length} Topics`)
     ),
 
     /* ── Legend ── */
     React.createElement('div',{style:{
-      position:'fixed',bottom:36,left:44,zIndex:150,
-      display:'flex',flexDirection:'column',gap:6,
-      opacity:hasSel?0:1,
-      transition:'opacity 0.3s ease',
-      pointerEvents:'none',
+      position:'fixed',bottom:20,left:20,zIndex:150,
+      display:'flex',flexDirection:'column',gap:5,
+      opacity:hasSel?0:1,transition:'opacity 0.3s ease',pointerEvents:'none',
     }},
       Object.entries(GROUPS).map(([k,g])=>
         React.createElement('div',{key:k,style:{display:'flex',alignItems:'center',gap:8}},
-          React.createElement('div',{style:{
-            width:8,height:8,borderRadius:'50%',background:g.color,
-            border:k==='general'?`1.5px solid ${C.navy}`:'none',flexShrink:0,
-          }}),
-          React.createElement('span',{style:{
-            fontFamily:"'DM Mono',monospace",fontSize:'0.51rem',
-            letterSpacing:'0.18em',textTransform:'uppercase',
-            color:C.navy,opacity:0.48,
-          }},g.label)
+          React.createElement('div',{style:{width:7,height:7,borderRadius:'50%',background:g.color,
+            border:k==='general'?`1.5px solid ${C.navy}`:'none',flexShrink:0}}),
+          React.createElement('span',{style:{fontFamily:"'DM Mono',monospace",fontSize:'0.48rem',
+            letterSpacing:'0.16em',textTransform:'uppercase',color:C.navy,opacity:0.48}},g.label)
         )
       )
     ),
@@ -1284,18 +1319,10 @@ function App(){
     React.createElement(ZoomControl,{zoom,setZoom,hidden:hasSel}),
 
     /* ── Tooltip ── */
-    hovered&&!hasSel&&React.createElement(Tooltip,{
-      node:hovered,nodes,zoom,
-      shiftX:stageShift*zoom,
-    }),
+    hovered&&!hasSel&&React.createElement(Tooltip,{node:hovered,nodes,zoom,shiftX:pan.x+stageShift}),
 
     /* ── Panel ── */
-    hasSel&&React.createElement(Panel,{
-      key:panelKey,
-      node:selected,
-      panelW,
-      onBack:handleBack,
-    })
+    hasSel&&React.createElement(Panel,{key:panelKey,node:selected,panelW,onBack:handleBack})
   );
 }
 
