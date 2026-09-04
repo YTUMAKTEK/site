@@ -134,6 +134,7 @@ const RAW=[
   {id:"gen-contact",     label:"Bize Ulaşın",             group:"general",icon:"phone",   r:44, photo:"photos/gen-contact.JPG",},
   {id:"gen-comm",        label:"Bize Bir Geridönüş Bırakın",          group:"general",icon:"mail",    r:50, photo:"photos/gen-comm.JPG",},
   {id:"gen-thanks",      label:"Teşekkür Ederiz!",              group:"general",icon:"heart",   r:42, photo:"photos/gen-thanks.JPG",},
+  {id:"gen-season-2526", label:"2025-2026 Sezonu",              group:"general",icon:"calendar",r:50},
   {id:"racing-members",  label:"YTÜ Racing Üyeleri",         group:"racing", icon:"users",   r:52, photo:"photos/racingmembers.jpg",},
   {id:"racing-project", label:"YTÜ Racing Takımı", group:"racing", img:"icons/racing.png", r:66, iconScale:1.7, panelIconScale:1.7, photo:"photos/racingproject.jpg",},
   {id:"racing-sponsors", label:"YTÜ Racing Sponsorları",        group:"racing", icon:"star",    r:44,photo:"photos/racingsponsor.jpg",},
@@ -145,13 +146,13 @@ const RAW=[
   {id:"astrid-sponsors", label:"Astrid Otonom Sponsorları",        group:"astrid", icon:"star",    r:42,photo:"photos/astridsponsor.jpg",},
   {id:"astrid-contact",  label:"Astrid Otonom ile İletişime Geçin",         group:"astrid", icon:"phone",   r:44,photo:"photos/astridcontact.jpg",},
   {id:"astrid-org",      label:"Astrid Otonom Organizasyon Şeması",             group:"astrid", icon:"grid",     r:52,photo:"photos/astridorg.jpg", fa:"fa-solid fa-list"},
-  {id:"astrid-history",  label:"Astrid Otonom Tarihçesi",         group:"astrid", icon:"trophy",r:48, photo:"photos/astridhistory.JPG",},
+  {id:"astrid-history",  label:"Astrid Otonom Tarihçesi",         group:"astrid", icon:"trophy",r:48, photo:"photos/astridhistory.jpg",},
   {id:"sigma-members",   label:"Sigma Aeronautics Üyeleri",          group:"sigma",  icon:"users",   r:48, photo:"photos/sigmamembers.JPG"},
   {id:"sigma-project",   label:"Sigma Aeronautics Takımı",          group:"sigma",  img:"icons/sigma.png",    r:66, iconScale:1.7, photo:"photos/sigmaproject.JPG", panelIconScale:1.7},
   {id:"sigma-sponsors",  label:"Sigma Aeronautics Sponsorları",         group:"sigma",  icon:"star",    r:44, photo:"photos/sigmasponsor.jpg",},
   {id:"sigma-contact",   label:"Sigma Aeronautics ile İletişime Geçin",          group:"sigma", icon:"phone",    r:46, photo:"photos/sigmacontact.jpg",},
   {id:"sigma-org",       label:"Sigma Aeronautics Organizasyon Şeması",              group:"sigma",  icon:"grid",r:50, photo:"photos/sigmaorg.jpg", fa:"fa-solid fa-list"},
-  {id:"sigma-history",   label:"Sigma Aeronautics Tarihçesi",          group:"sigma",  icon:"trophy",  r:52, photo:"photos/sigmahistory.jpg",},
+  {id:"sigma-history",   label:"Sigma Aeronautics Tarihçesi",          group:"sigma",  icon:"trophy",  r:52, photo:"photos/sigmahistory.JPG",},
   {id:"rocket-members",  label:"Yıldız Roket Üyeleri",         group:"rocket", icon:"users",   r:48, photo:"photos/rokethistory.jpg",},
   {id:"rocket-project",  label:"Yıldız Roket Takımı",         group:"rocket", img:"icons/roket.png",   r:50, iconScale:1.7, panelIconScale:1.7, photo:"photos/roketproject.jpg",},
   {id:"rocket-sponsors", label:"Yıldız Roket Sponsorları",        group:"rocket", icon:"star",    r:44, photo:"photos/roketsponsor.jpg",},
@@ -378,6 +379,10 @@ const MEMBERS_DATA={
     {name:"Prof. Özden Ağra",   url:"https://www.linkedin.com/in/ozden-agra-0aa314a2/"},
     {name:"Doç. Alptekin Ergenç",   url:"https://www.linkedin.com/in/alp-ergen%C3%A7-366a801/"},
   ],
+  "gen-season-2526":[
+    // TODO: 2025-2026 sezonunu tamamlayan üyelerin isim ve LinkedIn linklerini buraya ekleyin.
+    // Örnek: {name:"Ad Soyad", url:"https://www.linkedin.com/in/..."},
+  ],
   "racing-members":[
     {name:"Ahmet Bağcı",      url:"https://www.linkedin.com/in/ahmet-ba%C4%9Fci-a00a77305/"},
     {name:"Ahmet Sertkaya",    url:"https://www.linkedin.com/in/ahmet-sertkaya/"},
@@ -532,7 +537,7 @@ const CONTENT = {
   "Öğrenci kulüpleri düzeyinde bu ölçekte bir proje üretimi; bilimsel düşünceyi, mühendislik yaklaşımını ve takım çalışmasını merkeze alan kültürümüzün önemli bir göstergesidir. Süreç boyunca danışman hocalarımız ve sanayi paydaşlarımızla yakın iş birliği içerisinde çalışarak Ar-Ge odaklı projeler geliştirdik.",
   "Bu çalışmalarla amacımız; öğrencilerimizin araştırma yetkinliklerini artırmak, üniversite–sanayi bağını güçlendirmek ve ülkemizin teknoloji ekosistemine nitelikli katkılar sunmaktır.",
 ],
-  "org-sponsor":   ["Organizasyon sponsorlarımız, MAKTEK bünyesinde gerçekleştirilen tüm etkinliklerin ve projelerin hayata geçirilmesinde önemli rol oynamaktadır.",  
+  "org-sponsors":   ["Organizasyon sponsorlarımız, MAKTEK bünyesinde gerçekleştirilen tüm etkinliklerin ve projelerin hayata geçirilmesinde önemli rol oynamaktadır.",  
   "Sponsorlarımız; etkinlik altyapısı, tanıtım çalışmaları, lojistik destek ve organizasyon süreçlerinde kulübümüze katkı sağlayarak öğrenci–sektör etkileşimini güçlendirmektedir. Kurulan iş birlikleri sayesinde Datathon, BEMdays, Savunma Sanayi Günleri ve benzeri organizasyonlar daha geniş kitlelere ulaşabilmektedir.",
   "Organizasyon Sponsorları ekibi; potansiyel firmalarla iletişim kurmak, kurumsal iş birlikleri geliştirmek ve sürdürülebilir sponsor ilişkileri oluşturmak amacıyla aktif çalışmalar yürütmektedir.",
   "Yeni teknik ve kurumsal iş birliklerine her zaman açığız.",
@@ -589,6 +594,10 @@ const CONTENT = {
   "Kulübümüzün bugünlere ulaşmasında emeği geçen tüm mezunlarımıza içten teşekkür eder, kariyer yolculuklarında başarılarının devamını dileriz.",
   "Sizlere çok şey borçluyuz..."
 ],
+  "gen-season-2526":     [
+  "2025-2026 sezonu boyunca MAKTEK bünyesindeki tüm ekiplerde -Organizasyon, YTÜ Racing, Astrid Otonom, Sigma Aeronautics ve Yıldız Roket- görev alarak kulübümüze emek veren üyelerimizin sezon sonunda ayrıldığı bir dönemi kapsamaktadır.",
+  "Bu sayfada, 2025-2026 sezonunu kulübümüzle birlikte tamamlayan üyelerimizin LinkedIn profillerine ulaşabilirsiniz.",
+],
   "gen-members":     [
   "Yönetim Kurulu, MAKTEK bünyesindeki tüm ekip ve faaliyetlerin stratejik yönlendirmesinden sorumlu ana karar mekanizmasıdır.",
   "Kurul üyeleri; kulübün vizyonunu belirlemek, uzun vadeli hedeflerini oluşturmak ve organizasyonel süreçlerin sağlıklı şekilde ilerlemesini sağlamak amacıyla koordineli biçimde çalışmaktadır. Teknik projelerden etkinlik organizasyonlarına, sponsorluk ilişkilerinden üye yönetimine kadar tüm alanlarda rehberlik sunmaktadır.",
@@ -615,7 +624,7 @@ const CONTENT = {
   "2025 – Formula Student Çekya yarışmasında CV (içten yanmalı motor) klasmanında şampiyon olmuştur (Genel klasman, Dayanıklılık ve Hızlanma kategorilerinde birincilik; Skidpad ve Verimlilik kategorilerinde ikincilik; Autocross kategorisinde üçüncülük elde etmiştir. Formula Student Alpe Adria yarışmasında da SkidPad- Yol tutuşu ve denge birinciliği, Autocross- Çeviklik ve dar viraj hakimiyeti birinciliği, Acceleration- Kalkış ve hızlanma kabiliyeti ikinciliği elde etmiştir.",
   "Bu süreç boyunca YTU Racing, Avrupa’nın en güçlü Formula Student takımlarıyla rekabet eden seviyeye ulaşmıştır.",
 ],
-  "racing-sponsor": ["Projelerimiz; sanayi kuruluşları, teknik partnerler ve bireysel destekçilerimizin katkılarıyla yürütülmektedir.",  
+  "racing-sponsors": ["Projelerimiz; sanayi kuruluşları, teknik partnerler ve bireysel destekçilerimizin katkılarıyla yürütülmektedir.",  
   "Sponsorlarımız; üretim, test altyapısı, malzeme temini ve lojistik alanlarında takımımıza destek olmaktadır. Sponsor logoları yarış araçlarımızda, web sitemizde, sosyal medya kanallarımızda ve tanıtım materyallerimizde yer almaktadır.",
   "Yeni teknik ve kurumsal iş birliklerine her zaman açığız.",
 ],
@@ -659,7 +668,7 @@ const CONTENT = {
   "2025 – ABD’de düzenlenen DBF yarışmasında elemeleri geçerek finale kalan tek Türk takımı, Teknofest İHA Yarışması’nda teknik rapor 1.'liği",
   "Takım, yıllar içinde kompozit üretim, uçuş kontrol ve motor test altyapısı konusunda ciddi bir mühendislik birikimi oluşturmuştur.",
 ],
-  "sigma-sponsor":  ["Projelerimiz; sanayi kuruluşları ve bireysel destekçilerimizin katkılarıyla yürütülmektedir.",  
+  "sigma-sponsors":  ["Projelerimiz; sanayi kuruluşları ve bireysel destekçilerimizin katkılarıyla yürütülmektedir.",  
   "Sponsorlarımız; malzeme temini, üretim altyapısı, test süreçleri ve tanıtım faaliyetlerinde takımımıza destek sağlamaktadır. Sponsor logoları hava araçlarımızda, sosyal medya hesaplarımızda ve tanıtım materyallerimizde yer almaktadır.",
   "Yeni teknik ve kurumsal iş birliklerine her zaman açığız.",
 ],
@@ -695,7 +704,7 @@ const CONTENT = {
   "2024 – Teknofest Robotaksi Finali, TÜBİTAK 2209/B sanayi ortaklı proje desteği ve 10 firmadan proje desteği",  
   "Bu süreç boyunca Astrid ekibi, otonom sürüş yazılımı, elektrikli araç sistemleri ve mekanik entegrasyon alanlarında sürekli gelişim göstermiştir.",
 ],
-  "astrid-sponsor":  ["Projelerimiz; sanayi kuruluşları, teknik partnerler ve bireysel destekçilerimizin katkılarıyla hayata geçirilmektedir.",  
+  "astrid-sponsors":  ["Projelerimiz; sanayi kuruluşları, teknik partnerler ve bireysel destekçilerimizin katkılarıyla hayata geçirilmektedir.",  
   "Sponsorlarımız; araç üretimi, test altyapısı, yazılım geliştirme süreçleri ve lojistik alanlarında takımımıza destek sağlamaktadır. Sponsor logoları aracımız üzerinde, sosyal medya kanallarımızda ve tanıtım materyallerinde yer almaktadır.",
   "Yeni teknik ve kurumsal iş birliklerine her zaman açığız.",
 ],
@@ -737,7 +746,7 @@ const CONTENT = {
   "2025 – DEMİRKAZIK-3 hibrit motoru ve ARTAM-2 roketiyle 8000 metre irtifaya ulaşarak rekor kırılması",
   "Bu süreç boyunca Yıldız Roket Takımı; aerodinamik, itki ve aviyonik altyapısını sürekli geliştirerek yüksek güçlü roket teknolojileri alanında önemli bir mühendislik birikimi oluşturmuştur.",
 ],
-  "rocket-sponsor":  ["Projelerimiz; sanayi kuruluşları ve teknik partnerlerimizin katkılarıyla hayata geçirilmektedir.",  
+  "rocket-sponsors":  ["Projelerimiz; sanayi kuruluşları ve teknik partnerlerimizin katkılarıyla hayata geçirilmektedir.",  
   "Sponsorlarımız üretim, test altyapısı, malzeme temini ve lojistik süreçlerde takımımıza destek sağlamaktadır. Sponsor logoları roketlerimizde, sosyal medya hesaplarımızda ve tanıtım materyallerimizde yer almaktadır.",
   "Yeni teknik ve kurumsal iş birliklerine her zaman açığız.",
 ],
@@ -963,13 +972,12 @@ function Panel({node,panelW,onBack}){
 
         memberList.length>0
           ? React.createElement('div',{style:{display:'flex',flexDirection:'column',gap:0}},
-              memberList.map((m,mi)=>
-                React.createElement('a',{
+              memberList.map((m,mi)=>{
+                const hasUrl=!!(m.url&&m.url.trim());
+                return React.createElement(hasUrl?'a':'div',{
                   key:mi,
-                  href:m.url,
-                  target:'_blank',
-                  rel:'noopener noreferrer',
-                  onMouseEnter:e=>{ setHovMember(mi); e.currentTarget.style.paddingLeft='14px'; e.currentTarget.style.color=g.color; },
+                  ...(hasUrl?{href:m.url.trim(),target:'_blank',rel:'noopener noreferrer'}:{}),
+                  onMouseEnter:e=>{ setHovMember(mi); e.currentTarget.style.paddingLeft='14px'; if(hasUrl)e.currentTarget.style.color=g.color; },
                   onMouseLeave:e=>{ setHovMember(null); e.currentTarget.style.paddingLeft='0'; e.currentTarget.style.color=C.navy; },
                   style:{
                     display:'flex',alignItems:'center',gap:10,
@@ -980,6 +988,8 @@ function Panel({node,panelW,onBack}){
                     letterSpacing:'0.04em',
                     color:C.navy,
                     textDecoration:'none',
+                    cursor:hasUrl?'pointer':'default',
+                    opacity:hasUrl?1:0.55,
                     transition:'padding-left 0.22s cubic-bezier(0.34,1.56,0.64,1), color 0.18s ease',
                   }
                 },
@@ -1000,8 +1010,8 @@ function Panel({node,panelW,onBack}){
                   },
                     React.createElement('path',{strokeLinecap:"round",strokeLinejoin:"round",d:"M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"})
                   )
-                )
-              )
+                );
+              })
             )
           : React.createElement('p',{style:{
               fontFamily:"'DM Mono',monospace",fontSize:'0.7rem',
