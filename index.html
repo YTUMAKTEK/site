@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden;background:#fff}
+html,body{width:100%;height:100%;overflow:hidden;background:#F4F1E9}
 body{font-family:'DM Mono',monospace}
 #root{width:100%;height:100%}
 ::-webkit-scrollbar{display:none}
@@ -61,7 +61,7 @@ body{font-family:'DM Mono',monospace}
 const {useState,useEffect,useRef,useCallback,useMemo}=React;
 
 /* ── Palette ─────────────────────────────────────────────── */
-const C={bg:'#FFFFFF',navy:'#0C2C47',mauve:'#D6C9C5',yellow:'#DA9B2B',green:'#2E5749',orange:'#BF512C',mint:'#ABCBCA'};
+const C={bg:'#F4F1E9',navy:'#0C2C47',mauve:'#D6C9C5',yellow:'#DA9B2B',green:'#2E5749',orange:'#BF512C',mint:'#ABCBCA'};
 const GROUPS={
   org:    {label:'Organizasyon',color:C.yellow,  text:C.navy},
   general:{label:'MAK-TEK',     color:C.mauve, text:C.navy},
@@ -93,6 +93,8 @@ const P={
   flag:    `<path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5"/>`,
   wrench:  `<path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"/>`,
   beaker:  `<path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/>`,
+  menu:    `<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"/>`,
+  adjust:  `<path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 00-3 0m3 0a1.5 1.5 0 01-3 0m-9.75 0h9.75"/>`,
 };
 
 function SVGIcon({name,size,color}){
@@ -228,7 +230,7 @@ const FL=[
 ══════════════════════════════════════════════════════════ */
 function NodeCircle({node,g,idx,selected,hovered,setHovered,setSelected}){
   const elRef=useRef(null);
-  const animState=useRef({ox:node.x,oy:node.y,phase:Math.random()*Math.PI*2,entered:false,enterProg:0,raf:null});
+  const animState=useRef({ox:node.x,oy:node.y,phase:Math.random()*Math.PI*2,startTime:null});
   const fl=FL[idx%FL.length];
   const isSel=selected?.id===node.id;
   const hasSel=!!selected;
@@ -238,12 +240,11 @@ function NodeCircle({node,g,idx,selected,hovered,setHovered,setSelected}){
     const el=elRef.current;
     if(!el)return;
     let raf;
-    let startTime=null;
     const delay=idx*25;
 
     const animate=(ts)=>{
-      if(!startTime)startTime=ts;
-      const elapsed=ts-startTime-delay;
+      if(animState.current.startTime===null)animState.current.startTime=ts;
+      const elapsed=ts-animState.current.startTime-delay;
 
       if(elapsed<0){ raf=requestAnimationFrame(animate); return; }
 
@@ -269,9 +270,9 @@ function NodeCircle({node,g,idx,selected,hovered,setHovered,setSelected}){
       if(el){
         el.style.left=finalX+'px';
         el.style.top=finalY+'px';
-        el.style.opacity=`${entOp * (hasSel && !isSel ? 0.22 : 1)}`;
-        const hoverScale=isHov&&!hasSel?1.11:1;
-        const selScale=isSel?0:hasSel?0.82:1;
+        el.style.opacity=`${entOp}`;
+        const hoverScale=isHov&&!isSel?1.11:1;
+        const selScale=isSel?0:1;
         el.style.transform=`scale(${Math.min(entScale,1)*selScale*hoverScale})`;
       }
 
@@ -286,9 +287,9 @@ function NodeCircle({node,g,idx,selected,hovered,setHovered,setSelected}){
 
   return React.createElement('div',{
     ref:elRef,
-    onMouseEnter:()=>{ if(!hasSel)setHovered(node.id); },
+    onMouseEnter:()=>setHovered(node.id),
     onMouseLeave:()=>setHovered(null),
-    onClick:()=>{ if(!hasSel){ setSelected(node); setHovered(null); } },
+    onClick:e=>{ e.stopPropagation(); if(!isSel){ setSelected(node); setHovered(null); } },
     style:{
       position:'absolute',
       width:node.r*2,
@@ -298,11 +299,11 @@ function NodeCircle({node,g,idx,selected,hovered,setHovered,setSelected}){
       display:'flex',
       alignItems:'center',
       justifyContent:'center',
-      cursor:hasSel?'default':'pointer',
-      boxShadow:isHov&&!hasSel
-        ?`0 20px 55px -12px ${g.color}88`
-        :`0 4px 22px rgba(0,0,0,0.09)`,
-      transition:'box-shadow 0.3s ease, opacity 0.45s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1)',
+      cursor:'pointer',
+      boxShadow:isHov
+        ?'0 14px 28px -6px rgba(12,44,71,0.28)'
+        :'0 10px 34px -6px rgba(12,44,71,0.07)',
+      transition:'box-shadow 0.4s ease, opacity 0.45s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1)',
       willChange:'transform,opacity,left,top',
       userSelect:'none',
     }
@@ -318,15 +319,16 @@ function NodeCircle({node,g,idx,selected,hovered,setHovered,setSelected}){
 /* ══════════════════════════════════════════════════════════
    TOOLTIP (fixed pos, avoids zoom)
 ══════════════════════════════════════════════════════════ */
-function Tooltip({node,nodes,zoom,shiftX}){
+function Tooltip({node,nodes,zoom,shiftX,shiftY}){
   if(!node)return null;
   const n=nodes.find(nd=>nd.id===node);
   if(!n)return null;
 
   const W=window.innerWidth, H=window.innerHeight;
-  // screen coords of circle top-center
-  const sx = (n.x - W/2)*zoom + W/2 + shiftX;
-  const sy = (n.y - n.r - H/2)*zoom + H/2 - 10;
+  // screen coords of circle top-center — map from the fixed SIM_W×SIM_H
+  // stage space (not the viewport) into screen space, same math the stage transform uses
+  const sx = W/2 + (n.x - SIM_W/2)*zoom + shiftX;
+  const sy = H/2 + (n.y - n.r - SIM_H/2)*zoom + (shiftY||0) - 10;
 
   return React.createElement('div',{
     key:node,
@@ -765,7 +767,7 @@ const CONTENT = {
   "Her departman tasarım, analiz, üretim ve test süreçlerini kendi sorumluluğunda yürütmektedir.",
 ], 
 };
-function Panel({node,panelW,onBack}){
+function Panel({node,panelW,isMobile,onBack,closeRef}){
   const g=GROUPS[node.group];
   const bigR=Math.min(80,node.r*1.3);
   const panelRef=useRef(null);
@@ -801,11 +803,11 @@ function Panel({node,panelW,onBack}){
     });
   };
 
-  // Slide in
+  // Slide in (from the left)
   useEffect(()=>{
     const el=panelRef.current;
     if(!el)return;
-    el.style.transform='translateX(100%)';
+    el.style.transform='translateX(-100%)';
     requestAnimationFrame(()=>{
       requestAnimationFrame(()=>{
         el.style.transform='translateX(0)';
@@ -816,47 +818,62 @@ function Panel({node,panelW,onBack}){
   const handleBack=()=>{
     const el=panelRef.current;
     if(el){
-      el.style.transform='translateX(100%)';
+      el.style.transform='translateX(-100%)';
       setTimeout(onBack,480);
     } else onBack();
   };
+
+  // Let the parent trigger this same animated close (e.g. clicking outside the panel)
+  useEffect(()=>{
+    if(closeRef)closeRef.current=handleBack;
+    return()=>{ if(closeRef&&closeRef.current===handleBack)closeRef.current=null; };
+  },[]);
 
   const isMember=isMemberBubble(node.id);
   const memberList=MEMBERS_DATA[node.id]||[];
 
   return React.createElement('div',{
     ref:panelRef,
+    onClick:e=>e.stopPropagation(),
     style:{
-      position:'fixed',top:0,right:0,
+      position:'fixed',top:0,left:0,
       width:panelW,height:'100vh',
-      background:'#fff',
-      boxShadow:'-24px 0 80px rgba(0,0,0,0.14)',
+      background:C.bg,
+      boxShadow:'18px 0 50px -10px rgba(12,44,71,0.10)',
       display:'flex',flexDirection:'column',
       zIndex:400,
       transition:'transform 0.52s cubic-bezier(0.22,1,0.36,1)',
       willChange:'transform',
     }
   },
-    // Back btn
+    // Divider line at the panel's right edge (desktop split view only)
+    !isMobile&&React.createElement('div',{style:{
+      position:'absolute',top:0,right:0,bottom:0,width:1,
+      background:'rgba(12,44,71,0.14)',zIndex:5,
+    }}),
+
+    // Close button — straddles the divider on desktop, sits inset on mobile
     React.createElement('button',{
       onClick:handleBack,
       style:{
-        position:'absolute',top:26,left:24,
-        background:'none',border:'none',cursor:'pointer',
-        display:'flex',alignItems:'center',gap:8,
-        fontFamily:"'DM Mono',monospace",
-        fontSize:'0.58rem',letterSpacing:'0.2em',textTransform:'uppercase',
-        color:C.navy,opacity:0.5,padding:0,
-        transition:'opacity 0.2s',
-        zIndex:10,
+        position:'absolute',
+        top:isMobile?20:'50%',
+        right:isMobile?20:0,
+        transform:isMobile?'none':'translate(50%,-50%)',
+        width:40,height:40,borderRadius:8,
+        background:'#fff',
+        border:'1.5px solid rgba(12,44,71,0.18)',
+        display:'flex',alignItems:'center',justifyContent:'center',
+        cursor:'pointer',zIndex:10,
+        boxShadow:'0 10px 26px -8px rgba(12,44,71,0.22)',
+        transition:'background 0.2s ease',
       },
-      onMouseEnter:e=>e.currentTarget.style.opacity=1,
-      onMouseLeave:e=>e.currentTarget.style.opacity=0.5,
+      onMouseEnter:e=>e.currentTarget.style.background='#F7F4EE',
+      onMouseLeave:e=>e.currentTarget.style.background='#fff',
     },
-      React.createElement('svg',{xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:2,stroke:"currentColor",width:14,height:14},
-        React.createElement('path',{strokeLinecap:"round",strokeLinejoin:"round",d:"M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"})
-      ),
-      'Back'
+      React.createElement('svg',{xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.8,stroke:C.navy,width:16,height:16},
+        React.createElement('path',{strokeLinecap:"round",strokeLinejoin:"round",d:"M6 18L18 6M6 6l12 12"})
+      )
     ),
 
     // Scrollable body
@@ -1111,59 +1128,132 @@ function Panel({node,panelW,onBack}){
 }
 
 /* ══════════════════════════════════════════════════════════
-   ZOOM CONTROL
+   CONTROL BAR — bottom-center menu / filter / zoom (Palmer-style)
 ══════════════════════════════════════════════════════════ */
-function ZoomControl({zoom,setZoom,hidden}){
-  const dragRef=useRef({on:false,startY:0,startZ:1});
+function PillBtn({icon,label,active,onClick}){
+  return React.createElement('button',{
+    onClick,
+    style:{
+      display:'flex',alignItems:'center',gap:7,
+      background:active?C.navy:'transparent',
+      border:'none',borderRadius:20,
+      padding:'8px 14px',cursor:'pointer',
+      fontFamily:"'DM Mono',monospace",fontSize:'0.62rem',
+      letterSpacing:'0.06em',
+      color:active?'#fff':C.navy,
+      transition:'background 0.2s ease,color 0.2s ease',
+    },
+    onMouseEnter:e=>{ if(!active)e.currentTarget.style.background='rgba(12,44,71,0.06)'; },
+    onMouseLeave:e=>{ if(!active)e.currentTarget.style.background='transparent'; },
+  },
+    React.createElement(SVGIcon,{name:icon,size:14,color:active?'#fff':C.navy}),
+    label
+  );
+}
 
-  const onDown=useCallback((e)=>{
-    e.preventDefault();
-    dragRef.current={on:true,startY:e.clientY,startZ:zoom};
-    const mv=ev=>{
-      if(!dragRef.current.on)return;
-      const dy=dragRef.current.startY-ev.clientY;
-      setZoom(z=>Math.max(0.5,Math.min(2.5,dragRef.current.startZ+dy/200)));
-    };
-    const up=()=>{ dragRef.current.on=false; window.removeEventListener('pointermove',mv); };
-    window.addEventListener('pointermove',mv);
-    window.addEventListener('pointerup',up,{once:true});
-  },[zoom,setZoom]);
-
-  const pct=((zoom-0.5)/(2.5-0.5))*100;
-
+function ControlBar({zoom,setZoom,hidden,menuOpen,setMenuOpen,filterOpen,setFilterOpen,hiddenGroups,toggleGroup,focusGroup}){
   return React.createElement('div',{style:{
-    position:'fixed',bottom:36,right:44,zIndex:150,
-    display:'flex',flexDirection:'column',alignItems:'center',gap:8,
+    position:'fixed',bottom:28,left:'50%',
+    transform:hidden?'translateX(-50%) translateY(16px)':'translateX(-50%) translateY(0)',
+    zIndex:150,display:'flex',flexDirection:'column',alignItems:'center',gap:10,
     opacity:hidden?0:1,
     pointerEvents:hidden?'none':'auto',
-    transition:'opacity 0.3s ease',
+    transition:'opacity 0.3s ease, transform 0.3s ease',
     userSelect:'none',
   }},
-    React.createElement('span',{style:{fontFamily:"'DM Mono'",fontSize:'0.48rem',letterSpacing:'0.2em',textTransform:'uppercase',color:C.navy,opacity:0.38}},'zoom'),
-    React.createElement('div',{
-      onPointerDown:onDown,
-      style:{width:3,height:84,background:'#E8E3E0',borderRadius:2,position:'relative',cursor:'ns-resize'}
-    },
-      React.createElement('div',{style:{
-        position:'absolute',left:'50%',
-        transform:'translateX(-50%)',
-        bottom:`${pct}%`,
-        width:13,height:13,borderRadius:'50%',
-        background:C.navy,pointerEvents:'none',
-        transition:'bottom 0.08s',
-      }})
+
+    /* Menu overlay: list of groups, click to focus-pan */
+    menuOpen&&React.createElement('div',{style:{
+      background:'#fff',borderRadius:12,
+      border:'1px solid rgba(12,44,71,0.1)',
+      boxShadow:'0 20px 50px -12px rgba(12,44,71,0.18)',
+      padding:'10px 6px',display:'flex',flexDirection:'column',minWidth:200,
+      animation:'contentIn 0.22s ease both',
+    }},
+      Object.entries(GROUPS).map(([k,g])=>
+        React.createElement('button',{
+          key:k,onClick:()=>focusGroup(k),
+          style:{
+            display:'flex',alignItems:'center',gap:10,
+            background:'none',border:'none',cursor:'pointer',
+            padding:'9px 14px',borderRadius:8,textAlign:'left',
+            fontFamily:"'DM Mono',monospace",fontSize:'0.68rem',color:C.navy,
+            transition:'background 0.15s ease',
+          },
+          onMouseEnter:e=>e.currentTarget.style.background='rgba(12,44,71,0.05)',
+          onMouseLeave:e=>e.currentTarget.style.background='transparent',
+        },
+          React.createElement('div',{style:{width:8,height:8,borderRadius:'50%',background:g.color,
+            border:k==='general'?`1.5px solid ${C.navy}`:'none',flexShrink:0}}),
+          g.label
+        )
+      )
     ),
-    React.createElement('div',{style:{display:'flex',flexDirection:'column',alignItems:'center',gap:0}},
-      React.createElement('button',{onClick:()=>setZoom(z=>Math.min(2.5,+(z+0.1).toFixed(2))),
-        style:{background:'none',border:'none',cursor:'pointer',color:C.navy,opacity:0.4,fontSize:17,lineHeight:1,padding:'3px 6px',fontFamily:"'DM Mono'",transition:'opacity 0.2s'},
-        onMouseEnter:e=>e.currentTarget.style.opacity=1,
-        onMouseLeave:e=>e.currentTarget.style.opacity=0.4,
-      },'+'),
-      React.createElement('button',{onClick:()=>setZoom(z=>Math.max(0.5,+(z-0.1).toFixed(2))),
-        style:{background:'none',border:'none',cursor:'pointer',color:C.navy,opacity:0.4,fontSize:17,lineHeight:1,padding:'3px 6px',fontFamily:"'DM Mono'",transition:'opacity 0.2s'},
-        onMouseEnter:e=>e.currentTarget.style.opacity=1,
-        onMouseLeave:e=>e.currentTarget.style.opacity=0.4,
-      },'−')
+
+    /* Filter overlay: checkboxes to show/hide each group */
+    filterOpen&&React.createElement('div',{style:{
+      background:'#fff',borderRadius:12,
+      border:'1px solid rgba(12,44,71,0.1)',
+      boxShadow:'0 20px 50px -12px rgba(12,44,71,0.18)',
+      padding:'10px 6px',display:'flex',flexDirection:'column',minWidth:200,
+      animation:'contentIn 0.22s ease both',
+    }},
+      Object.entries(GROUPS).map(([k,g])=>{
+        const on=!hiddenGroups.has(k);
+        return React.createElement('button',{
+          key:k,onClick:()=>toggleGroup(k),
+          style:{
+            display:'flex',alignItems:'center',gap:10,
+            background:'none',border:'none',cursor:'pointer',
+            padding:'9px 14px',borderRadius:8,textAlign:'left',
+            fontFamily:"'DM Mono',monospace",fontSize:'0.68rem',color:C.navy,
+            opacity:on?1:0.4,
+            transition:'background 0.15s ease, opacity 0.15s ease',
+          },
+          onMouseEnter:e=>e.currentTarget.style.background='rgba(12,44,71,0.05)',
+          onMouseLeave:e=>e.currentTarget.style.background='transparent',
+        },
+          React.createElement('div',{style:{
+            width:14,height:14,borderRadius:4,flexShrink:0,
+            border:`1.5px solid ${g.color}`,
+            background:on?g.color:'transparent',
+          }}),
+          g.label
+        );
+      })
+    ),
+
+    /* Bar */
+    React.createElement('div',{style:{
+      display:'flex',alignItems:'center',gap:2,
+      background:'#fff',borderRadius:24,
+      border:'1px solid rgba(12,44,71,0.1)',
+      boxShadow:'0 14px 40px -12px rgba(12,44,71,0.16)',
+      padding:4,
+    }},
+      React.createElement(PillBtn,{icon:'menu',label:'menu',active:menuOpen,
+        onClick:()=>{ setMenuOpen(v=>!v); setFilterOpen(false); }}),
+      React.createElement(PillBtn,{icon:'adjust',label:'filter',active:filterOpen,
+        onClick:()=>{ setFilterOpen(v=>!v); setMenuOpen(false); }}),
+      React.createElement('div',{style:{width:1,height:20,background:'rgba(12,44,71,0.12)',margin:'0 4px'}}),
+      React.createElement('button',{
+        onClick:()=>setZoom(z=>Math.max(0.5,+(z-0.1).toFixed(2))),
+        style:{background:'none',border:'none',cursor:'pointer',color:C.navy,fontSize:16,lineHeight:1,
+          width:30,height:30,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',
+          transition:'background 0.15s ease'},
+        onMouseEnter:e=>e.currentTarget.style.background='rgba(12,44,71,0.06)',
+        onMouseLeave:e=>e.currentTarget.style.background='transparent',
+      },'−'),
+      React.createElement('span',{style:{fontFamily:"'DM Mono',monospace",fontSize:'0.6rem',color:C.navy,opacity:0.55,minWidth:34,textAlign:'center'}},
+        `${Math.round(zoom*100)}%`),
+      React.createElement('button',{
+        onClick:()=>setZoom(z=>Math.min(2.5,+(z+0.1).toFixed(2))),
+        style:{background:'none',border:'none',cursor:'pointer',color:C.navy,fontSize:16,lineHeight:1,
+          width:30,height:30,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',
+          transition:'background 0.15s ease'},
+        onMouseEnter:e=>e.currentTarget.style.background='rgba(12,44,71,0.06)',
+        onMouseLeave:e=>e.currentTarget.style.background='transparent',
+      },'+')
     )
   );
 }
@@ -1190,7 +1280,16 @@ function App(){
 };
 const [zoom,setZoom]=useState(initZoom);
   const [pan,setPan]=useState({x:0,y:0});
+  const panRef=useRef(pan);
+  useEffect(()=>{ panRef.current=pan; },[pan]);
   const [panelKey,setPanelKey]=useState(0);
+  const [hiddenGroups,setHiddenGroups]=useState(()=>new Set());
+  const [menuOpen,setMenuOpen]=useState(false);
+  const [filterOpen,setFilterOpen]=useState(false);
+  const [isPanning,setIsPanning]=useState(false);
+  const dragSuppressRef=useRef(false);
+  const panelCloseRef=useRef(null);
+  const mouseDragRef=useRef({dragging:false,moved:false,x0:0,y0:0,px0:0,py0:0});
   const hasSel=!!selected;
 
   useEffect(()=>{
@@ -1247,15 +1346,73 @@ const [zoom,setZoom]=useState(initZoom);
     };
   },[zoom,pan,hasSel]);
 
-  const handleSelect=useCallback((node)=>{ setSelected(node); setPanelKey(k=>k+1); },[]);
+  // Desktop: click-and-drag pan (Google Maps style)
+  useEffect(()=>{
+    const el=document.getElementById('hub-stage');
+    if(!el)return;
+    const d=mouseDragRef.current;
+    const onDown=e=>{
+      if(hasSel||e.button!==0)return;
+      d.dragging=true; d.moved=false;
+      d.x0=e.clientX; d.y0=e.clientY; d.px0=panRef.current.x; d.py0=panRef.current.y;
+    };
+    const onMove=e=>{
+      if(!d.dragging)return;
+      const dx=e.clientX-d.x0, dy=e.clientY-d.y0;
+      if(!d.moved&&Math.hypot(dx,dy)>4){ d.moved=true; setIsPanning(true); }
+      if(d.moved){ e.preventDefault(); setPan({x:d.px0+dx,y:d.py0+dy}); }
+    };
+    const onUp=()=>{
+      if(d.dragging&&d.moved)dragSuppressRef.current=true;
+      d.dragging=false; d.moved=false; setIsPanning(false);
+    };
+    el.addEventListener('mousedown',onDown);
+    window.addEventListener('mousemove',onMove);
+    window.addEventListener('mouseup',onUp);
+    return()=>{
+      el.removeEventListener('mousedown',onDown);
+      window.removeEventListener('mousemove',onMove);
+      window.removeEventListener('mouseup',onUp);
+    };
+  },[hasSel]);
+
+  const handleSelect=useCallback((node)=>{
+    if(dragSuppressRef.current){ dragSuppressRef.current=false; return; }
+    setSelected(node); setPanelKey(k=>k+1);
+  },[]);
   const handleBack=useCallback(()=>{ setSelected(null); },[]);
 
-  const panelW=Math.min(490,wh.w*0.95);
-  const stageShift=hasSel?-panelW*0.3:0;
+  const focusGroup=useCallback((gk)=>{
+    const gNodes=nodes.filter(n=>n.group===gk);
+    if(!gNodes.length)return;
+    const avgX=gNodes.reduce((s,n)=>s+n.x,0)/gNodes.length;
+    const avgY=gNodes.reduce((s,n)=>s+n.y,0)/gNodes.length;
+    const z=window.innerWidth<768?zoom:1.4;
+    setZoom(z);
+    setPan({x:z*(SIM_W/2-avgX),y:z*(SIM_H/2-avgY)});
+    setMenuOpen(false);
+  },[nodes,zoom]);
 
-  return React.createElement('div',{style:{
-    position:'fixed',inset:0,background:C.bg,overflow:'hidden',touchAction:'none',
-  }},
+  const toggleGroup=useCallback((gk)=>{
+    setHiddenGroups(prev=>{
+      const next=new Set(prev);
+      if(next.has(gk))next.delete(gk); else next.add(gk);
+      return next;
+    });
+  },[]);
+
+  const isMobile=wh.w<768;
+  const panelW=isMobile?wh.w:Math.min(620,wh.w*0.48);
+  const stageShift=hasSel?panelW*0.45:0;
+  const visibleNodes=nodes.filter(n=>!hiddenGroups.has(n.group));
+
+  return React.createElement('div',{
+    onClick:()=>{ if(hasSel){ if(panelCloseRef.current)panelCloseRef.current(); else handleBack(); } },
+    style:{
+      position:'fixed',inset:0,background:C.bg,overflow:'hidden',touchAction:'none',
+      cursor:hasSel?'default':(isPanning?'grabbing':'grab'),
+    }
+  },
     /* ── Zoomable + pannable stage ── */
     React.createElement('div',{
       id:'hub-stage',
@@ -1270,7 +1427,7 @@ const [zoom,setZoom]=useState(initZoom);
         willChange:'transform',
       }
     },
-      nodes.map((n,i)=>React.createElement(NodeCircle,{
+      visibleNodes.map((n,i)=>React.createElement(NodeCircle,{
         key:n.id,node:n,g:GROUPS[n.group],idx:i,
         selected,hovered,setHovered,setSelected:handleSelect,
       }))
@@ -1281,40 +1438,25 @@ const [zoom,setZoom]=useState(initZoom);
       position:'fixed',top:0,left:0,right:0,zIndex:200,
       display:'flex',alignItems:'center',justifyContent:'space-between',
       padding:'16px 24px',
-      opacity:hasSel?0:1,
-      transform:hasSel?'translateY(-14px)':'translateY(0)',
       transition:'all 0.35s ease',
-      pointerEvents:hasSel?'none':'auto',
     }},
       React.createElement('img',{src:'Maktek_logo.png',alt:'Maktek',style:{height:48,width:'auto',objectFit:'contain',display:'block'}}),
       React.createElement('span',{style:{fontFamily:"'DM Mono',monospace",fontSize:'0.57rem',letterSpacing:'0.22em',textTransform:'uppercase',color:C.navy,opacity:0.38}},
         `${RAW.length} Topics`)
     ),
 
-    /* ── Legend ── */
-    React.createElement('div',{style:{
-      position:'fixed',bottom:20,left:20,zIndex:150,
-      display:'flex',flexDirection:'column',gap:5,
-      opacity:hasSel?0:1,transition:'opacity 0.3s ease',pointerEvents:'none',
-    }},
-      Object.entries(GROUPS).map(([k,g])=>
-        React.createElement('div',{key:k,style:{display:'flex',alignItems:'center',gap:8}},
-          React.createElement('div',{style:{width:7,height:7,borderRadius:'50%',background:g.color,
-            border:k==='general'?`1.5px solid ${C.navy}`:'none',flexShrink:0}}),
-          React.createElement('span',{style:{fontFamily:"'DM Mono',monospace",fontSize:'0.48rem',
-            letterSpacing:'0.16em',textTransform:'uppercase',color:C.navy,opacity:0.48}},g.label)
-        )
-      )
-    ),
-
-    /* ── Zoom Control ── */
-    React.createElement(ZoomControl,{zoom,setZoom,hidden:hasSel}),
+    /* ── Control Bar (menu / filter / zoom) ── */
+    React.createElement(ControlBar,{
+      zoom,setZoom,hidden:hasSel,
+      menuOpen,setMenuOpen,filterOpen,setFilterOpen,
+      hiddenGroups,toggleGroup,focusGroup,
+    }),
 
     /* ── Tooltip ── */
-    hovered&&!hasSel&&React.createElement(Tooltip,{node:hovered,nodes,zoom,shiftX:pan.x+stageShift}),
+    hovered&&React.createElement(Tooltip,{node:hovered,nodes,zoom,shiftX:pan.x+stageShift,shiftY:pan.y}),
 
     /* ── Panel ── */
-    hasSel&&React.createElement(Panel,{key:panelKey,node:selected,panelW,onBack:handleBack})
+    hasSel&&React.createElement(Panel,{key:panelKey,node:selected,panelW,isMobile,onBack:handleBack,closeRef:panelCloseRef})
   );
 }
 
